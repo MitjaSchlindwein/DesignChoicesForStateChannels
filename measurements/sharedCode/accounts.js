@@ -1,0 +1,10 @@
+module.exports = [  '0x5ADCDE763CEE77ccb6fF2b196Db54FDe81F8a83c',
+                    '0x4ADc55aCDA6EF5688F68096543728b6FA4960B52',
+                    '0xaF243AAbc152A6FB01c4c15B343d1713381367AB',
+                    '0x1eb0C29A294498e029507C7154bC253cbf1ca36D',
+                    '0x60Dd2Db1d8B34766d1B061Ba124bAc623D57A22f',
+                    '0x1a51fb7FC6021820e7df62b680C0d15292137ace',
+                    '0x685Dc715e75D58e1Acc672a28e13c6A59B199079',
+                    '0x293dd984De5b5E96E054a5f77774494f23f7eb79',
+                    '0xE0d421561233265f5c95810D685dD49bced8644c',
+                    '0xf5168D7cB62831cd55FBEADf4c7f65e4e0ABd76b' ];
