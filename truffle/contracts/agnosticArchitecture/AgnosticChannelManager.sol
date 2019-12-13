@@ -52,7 +52,7 @@ contract AgnosticChannelManager is SigVerifier {
     function createOffchainApplication(bytes32 _nonce, address[] calldata _parties, address _libraryAddress) external payable {
 	    
 	    //Determine the id by the senders-address, the library-address and a nonce -> Enables parties to sign states of isntances that has not been created yet
-	    bytes32 _id = keccak256(abi.encode(_nonce, _parties, _libraryAddress));
+	    bytes32 _id = keccak256(abi.encode(_nonce, msg.sender, msg.value, _parties, _libraryAddress));
         
         //Checks
         require(channels[_id].status == Status.NONE && _parties.length >= 2 && msg.value >= minFunding);   //Overflow check

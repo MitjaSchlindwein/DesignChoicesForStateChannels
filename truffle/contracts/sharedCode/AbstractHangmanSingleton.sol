@@ -67,8 +67,8 @@ contract AbstractHangmanSingleton{
     //Shared Singleton logic
     function createInstance(bytes32 _nonce, address[] calldata _parties) external payable {
         
-        //Determine the id by the senders-address, the library-address and a nonce -> Enables parties to sign states of isntances that has not been created yet
-	    bytes32 _id = keccak256(abi.encode(_nonce, _parties));
+        //Determine the id by the senders-address and a nonce -> Enables parties to sign states of isntances that has not been created yet
+	    bytes32 _id = keccak256(abi.encode(_nonce, msg.sender, msg.value, _parties));
         
         //Checks
         require(instanceState[_id].status == ChannelStatus.NONE && _parties.length >= 2);

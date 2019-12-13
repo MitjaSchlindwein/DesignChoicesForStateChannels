@@ -1,25 +1,25 @@
 {
   "contractName": "SigVerifier",
   "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.10+commit.5a6ea5b1\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/david/Desktop/implementation/truffle/contracts/sharedCode/SigVerifier.sol\":\"SigVerifier\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/david/Desktop/implementation/truffle/contracts/sharedCode/SigVerifier.sol\":{\"keccak256\":\"0x0b95e44687c8bd2419bdb2d5cd4b20c77be1d4108b0b58e39d08f04d5a40dc03\",\"urls\":[\"bzzr://1ab3571f17ae574a605d6f3d57c041bfd34364bcd908aad6b9bf3eb17f81600d\",\"dweb:/ipfs/QmRsMWgR9pdeEDZtNHsJbz2WQ9YP6PdWzSLpd4NE4KnfWy\"]}},\"version\":1}",
-  "bytecode": "0x6080604052348015600f57600080fd5b50604c80601d6000396000f3fe6080604052600080fdfea365627a7a723058209b690911e57d4cd193db3d8e82e21f0f6eab0f63075f3c3955c43964f030e8416c6578706572696d656e74616cf564736f6c634300050a0040",
-  "deployedBytecode": "0x6080604052600080fdfea365627a7a723058209b690911e57d4cd193db3d8e82e21f0f6eab0f63075f3c3955c43964f030e8416c6578706572696d656e74616cf564736f6c634300050a0040",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.10+commit.5a6ea5b1\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/media/shared/CAC/Projekte/2019_SC_Workshop_FinCrypto/publicImplementation/truffle/contracts/sharedCode/SigVerifier.sol\":\"SigVerifier\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/media/shared/CAC/Projekte/2019_SC_Workshop_FinCrypto/publicImplementation/truffle/contracts/sharedCode/SigVerifier.sol\":{\"keccak256\":\"0x0b95e44687c8bd2419bdb2d5cd4b20c77be1d4108b0b58e39d08f04d5a40dc03\",\"urls\":[\"bzzr://1ab3571f17ae574a605d6f3d57c041bfd34364bcd908aad6b9bf3eb17f81600d\",\"dweb:/ipfs/QmRsMWgR9pdeEDZtNHsJbz2WQ9YP6PdWzSLpd4NE4KnfWy\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50604c80601d6000396000f3fe6080604052600080fdfea365627a7a72305820b0f453709c4db99916204e81f75f5f66ca3031376782b67117bb3bdac72546006c6578706572696d656e74616cf564736f6c634300050a0040",
+  "deployedBytecode": "0x6080604052600080fdfea365627a7a72305820b0f453709c4db99916204e81f75f5f66ca3031376782b67117bb3bdac72546006c6578706572696d656e74616cf564736f6c634300050a0040",
   "sourceMap": "59:1575:16:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;59:1575:16;;;;;;;",
   "deployedSourceMap": "59:1575:16:-;;;;;",
   "source": "pragma solidity 0.5.10;\npragma experimental ABIEncoderV2;\n\ncontract SigVerifier {\n\n    //Structure for signatures\n    struct Signature {\n        uint8 v;\n        bytes32 r;\n        bytes32 s;\n    }\n    \n    //Function to check signatures\n    function verifySignatures(address[] memory _parties, bytes memory _encodedInput, bytes memory _signatures) internal {\n        verifySignatures(_parties, calcPrefixedHash(_encodedInput), _signatures);\n    }\n    \n    //Function to check signatures\n    function verifySignatures(address[] memory _parties, bytes32 _hash, bytes memory _signatures) internal {\n        \n        //Convert signatures\n        Signature[] memory _decodedSignatures = abi.decode(_signatures, (Signature[]));\n        \n        //Check that there are enough signatures\n        require(_decodedSignatures.length == _parties.length, \"There are less/more signatures then parties\");\n\n        //Check signatures\n        for(uint i = 0; i < _parties.length; i++){\n            require(_parties[i] == ecrecover(_hash, _decodedSignatures[i].v, _decodedSignatures[i].r, _decodedSignatures[i].s), \"Wrong signature\");\n        }\n    }\n    \n    //Calculate hash for signature verification (Web3js adds some text in front)\n    function calcPrefixedHash(bytes memory _encodedInput) internal pure returns (bytes32){\n        return calcPrefixedHash(keccak256(_encodedInput));\n    }\n    \n    function calcPrefixedHash(bytes32 _hashedInput) internal pure returns (bytes32){\n        string memory _mes = \"\\x19Ethereum Signed Message:\\n32\";\n        bytes32 _hash2 = keccak256(abi.encodePacked(_mes,_hashedInput));\n        return _hash2;\n    }\n}\n",
-  "sourcePath": "/home/david/Desktop/implementation/truffle/contracts/sharedCode/SigVerifier.sol",
+  "sourcePath": "/media/shared/CAC/Projekte/2019_SC_Workshop_FinCrypto/publicImplementation/truffle/contracts/sharedCode/SigVerifier.sol",
   "ast": {
-    "absolutePath": "/home/david/Desktop/implementation/truffle/contracts/sharedCode/SigVerifier.sol",
+    "absolutePath": "/media/shared/CAC/Projekte/2019_SC_Workshop_FinCrypto/publicImplementation/truffle/contracts/sharedCode/SigVerifier.sol",
     "exportedSymbols": {
       "SigVerifier": [
-        6084
+        6092
       ]
     },
-    "id": 6085,
+    "id": 6093,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 5950,
+        "id": 5958,
         "literals": [
           "solidity",
           "0.5",
@@ -29,7 +29,7 @@
         "src": "0:23:16"
       },
       {
-        "id": 5951,
+        "id": 5959,
         "literals": [
           "experimental",
           "ABIEncoderV2"
@@ -43,23 +43,23 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 6084,
+        "id": 6092,
         "linearizedBaseContracts": [
-          6084
+          6092
         ],
         "name": "SigVerifier",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "SigVerifier.Signature",
-            "id": 5958,
+            "id": 5966,
             "members": [
               {
                 "constant": false,
-                "id": 5953,
+                "id": 5961,
                 "name": "v",
                 "nodeType": "VariableDeclaration",
-                "scope": 5958,
+                "scope": 5966,
                 "src": "145:7:16",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -68,7 +68,7 @@
                   "typeString": "uint8"
                 },
                 "typeName": {
-                  "id": 5952,
+                  "id": 5960,
                   "name": "uint8",
                   "nodeType": "ElementaryTypeName",
                   "src": "145:5:16",
@@ -82,10 +82,10 @@
               },
               {
                 "constant": false,
-                "id": 5955,
+                "id": 5963,
                 "name": "r",
                 "nodeType": "VariableDeclaration",
-                "scope": 5958,
+                "scope": 5966,
                 "src": "162:9:16",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -94,7 +94,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 5954,
+                  "id": 5962,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "162:7:16",
@@ -108,10 +108,10 @@
               },
               {
                 "constant": false,
-                "id": 5957,
+                "id": 5965,
                 "name": "s",
                 "nodeType": "VariableDeclaration",
-                "scope": 5958,
+                "scope": 5966,
                 "src": "181:9:16",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -120,7 +120,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 5956,
+                  "id": 5964,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "181:7:16",
@@ -135,13 +135,13 @@
             ],
             "name": "Signature",
             "nodeType": "StructDefinition",
-            "scope": 6084,
+            "scope": 6092,
             "src": "118:79:16",
             "visibility": "public"
           },
           {
             "body": {
-              "id": 5976,
+              "id": 5984,
               "nodeType": "Block",
               "src": "358:89:16",
               "statements": [
@@ -151,11 +151,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 5969,
+                        "id": 5977,
                         "name": "_parties",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5961,
+                        "referencedDeclaration": 5969,
                         "src": "385:8:16",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
@@ -167,11 +167,11 @@
                         "arguments": [
                           {
                             "argumentTypes": null,
-                            "id": 5971,
+                            "id": 5979,
                             "name": "_encodedInput",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5963,
+                            "referencedDeclaration": 5971,
                             "src": "412:13:16",
                             "typeDescriptions": {
                               "typeIdentifier": "t_bytes_memory_ptr",
@@ -186,21 +186,21 @@
                               "typeString": "bytes memory"
                             }
                           ],
-                          "id": 5970,
+                          "id": 5978,
                           "name": "calcPrefixedHash",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [
-                            6059,
-                            6083
+                            6067,
+                            6091
                           ],
-                          "referencedDeclaration": 6059,
+                          "referencedDeclaration": 6067,
                           "src": "395:16:16",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
                             "typeString": "function (bytes memory) pure returns (bytes32)"
                           }
                         },
-                        "id": 5972,
+                        "id": 5980,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -216,11 +216,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 5973,
+                        "id": 5981,
                         "name": "_signatures",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5965,
+                        "referencedDeclaration": 5973,
                         "src": "428:11:16",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes_memory_ptr",
@@ -243,21 +243,21 @@
                           "typeString": "bytes memory"
                         }
                       ],
-                      "id": 5968,
+                      "id": 5976,
                       "name": "verifySignatures",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        5977,
-                        6045
+                        5985,
+                        6053
                       ],
-                      "referencedDeclaration": 6045,
+                      "referencedDeclaration": 6053,
                       "src": "368:16:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_array$_t_address_$dyn_memory_ptr_$_t_bytes32_$_t_bytes_memory_ptr_$returns$__$",
                         "typeString": "function (address[] memory,bytes32,bytes memory)"
                       }
                     },
-                    "id": 5974,
+                    "id": 5982,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -271,29 +271,29 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 5975,
+                  "id": 5983,
                   "nodeType": "ExpressionStatement",
                   "src": "368:72:16"
                 }
               ]
             },
             "documentation": null,
-            "id": 5977,
+            "id": 5985,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "verifySignatures",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 5966,
+              "id": 5974,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 5961,
+                  "id": 5969,
                   "name": "_parties",
                   "nodeType": "VariableDeclaration",
-                  "scope": 5977,
+                  "scope": 5985,
                   "src": "268:25:16",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -303,7 +303,7 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 5959,
+                      "id": 5967,
                       "name": "address",
                       "nodeType": "ElementaryTypeName",
                       "src": "268:7:16",
@@ -313,7 +313,7 @@
                         "typeString": "address"
                       }
                     },
-                    "id": 5960,
+                    "id": 5968,
                     "length": null,
                     "nodeType": "ArrayTypeName",
                     "src": "268:9:16",
@@ -327,10 +327,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 5963,
+                  "id": 5971,
                   "name": "_encodedInput",
                   "nodeType": "VariableDeclaration",
-                  "scope": 5977,
+                  "scope": 5985,
                   "src": "295:26:16",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -339,7 +339,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 5962,
+                    "id": 5970,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "295:5:16",
@@ -353,10 +353,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 5965,
+                  "id": 5973,
                   "name": "_signatures",
                   "nodeType": "VariableDeclaration",
-                  "scope": 5977,
+                  "scope": 5985,
                   "src": "323:24:16",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -365,7 +365,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 5964,
+                    "id": 5972,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "323:5:16",
@@ -381,12 +381,12 @@
               "src": "267:81:16"
             },
             "returnParameters": {
-              "id": 5967,
+              "id": 5975,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "358:0:16"
             },
-            "scope": 6084,
+            "scope": 6092,
             "src": "242:205:16",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -394,47 +394,47 @@
           },
           {
             "body": {
-              "id": 6044,
+              "id": 6052,
               "nodeType": "Block",
               "src": "595:538:16",
               "statements": [
                 {
                   "assignments": [
-                    5990
+                    5998
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 5990,
+                      "id": 5998,
                       "name": "_decodedSignatures",
                       "nodeType": "VariableDeclaration",
-                      "scope": 6044,
+                      "scope": 6052,
                       "src": "643:37:16",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr",
+                        "typeIdentifier": "t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr",
                         "typeString": "struct SigVerifier.Signature[]"
                       },
                       "typeName": {
                         "baseType": {
                           "contractScope": null,
-                          "id": 5988,
+                          "id": 5996,
                           "name": "Signature",
                           "nodeType": "UserDefinedTypeName",
-                          "referencedDeclaration": 5958,
+                          "referencedDeclaration": 5966,
                           "src": "643:9:16",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_Signature_$5958_storage_ptr",
+                            "typeIdentifier": "t_struct$_Signature_$5966_storage_ptr",
                             "typeString": "struct SigVerifier.Signature"
                           }
                         },
-                        "id": 5989,
+                        "id": 5997,
                         "length": null,
                         "nodeType": "ArrayTypeName",
                         "src": "643:11:16",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_array$_t_struct$_Signature_$5958_storage_$dyn_storage_ptr",
+                          "typeIdentifier": "t_array$_t_struct$_Signature_$5966_storage_$dyn_storage_ptr",
                           "typeString": "struct SigVerifier.Signature[]"
                         }
                       },
@@ -442,17 +442,17 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 5998,
+                  "id": 6006,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 5993,
+                        "id": 6001,
                         "name": "_signatures",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5984,
+                        "referencedDeclaration": 5992,
                         "src": "694:11:16",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes_memory_ptr",
@@ -466,18 +466,18 @@
                             "argumentTypes": null,
                             "baseExpression": {
                               "argumentTypes": null,
-                              "id": 5994,
+                              "id": 6002,
                               "name": "Signature",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 5958,
+                              "referencedDeclaration": 5966,
                               "src": "708:9:16",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_type$_t_struct$_Signature_$5958_storage_ptr_$",
+                                "typeIdentifier": "t_type$_t_struct$_Signature_$5966_storage_ptr_$",
                                 "typeString": "type(struct SigVerifier.Signature storage pointer)"
                               }
                             },
-                            "id": 5995,
+                            "id": 6003,
                             "indexExpression": null,
                             "isConstant": false,
                             "isLValue": false,
@@ -486,12 +486,12 @@
                             "nodeType": "IndexAccess",
                             "src": "708:11:16",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_type$_t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr_$",
+                              "typeIdentifier": "t_type$_t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr_$",
                               "typeString": "type(struct SigVerifier.Signature memory[] memory)"
                             }
                           }
                         ],
-                        "id": 5996,
+                        "id": 6004,
                         "isConstant": false,
                         "isInlineArray": false,
                         "isLValue": false,
@@ -500,7 +500,7 @@
                         "nodeType": "TupleExpression",
                         "src": "707:13:16",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr_$",
+                          "typeIdentifier": "t_type$_t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr_$",
                           "typeString": "type(struct SigVerifier.Signature memory[] memory)"
                         }
                       }
@@ -512,24 +512,24 @@
                           "typeString": "bytes memory"
                         },
                         {
-                          "typeIdentifier": "t_type$_t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr_$",
+                          "typeIdentifier": "t_type$_t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr_$",
                           "typeString": "type(struct SigVerifier.Signature memory[] memory)"
                         }
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 5991,
+                        "id": 5999,
                         "name": "abi",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 9020,
+                        "referencedDeclaration": 9032,
                         "src": "683:3:16",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_abi",
                           "typeString": "abi"
                         }
                       },
-                      "id": 5992,
+                      "id": 6000,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -543,7 +543,7 @@
                         "typeString": "function () pure"
                       }
                     },
-                    "id": 5997,
+                    "id": 6005,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -553,7 +553,7 @@
                     "nodeType": "FunctionCall",
                     "src": "683:38:16",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_struct$_Signature_$5958_memory_$dyn_memory",
+                      "typeIdentifier": "t_array$_t_struct$_Signature_$5966_memory_$dyn_memory",
                       "typeString": "struct SigVerifier.Signature memory[] memory"
                     }
                   },
@@ -570,7 +570,7 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 6004,
+                        "id": 6012,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -579,18 +579,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 6000,
+                            "id": 6008,
                             "name": "_decodedSignatures",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5990,
+                            "referencedDeclaration": 5998,
                             "src": "797:18:16",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr",
+                              "typeIdentifier": "t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr",
                               "typeString": "struct SigVerifier.Signature memory[] memory"
                             }
                           },
-                          "id": 6001,
+                          "id": 6009,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -610,18 +610,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 6002,
+                            "id": 6010,
                             "name": "_parties",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5980,
+                            "referencedDeclaration": 5988,
                             "src": "826:8:16",
                             "typeDescriptions": {
                               "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
                               "typeString": "address[] memory"
                             }
                           },
-                          "id": 6003,
+                          "id": 6011,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -644,7 +644,7 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "546865726520617265206c6573732f6d6f7265207369676e617475726573207468656e2070617274696573",
-                        "id": 6005,
+                        "id": 6013,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -671,21 +671,21 @@
                           "typeString": "literal_string \"There are less/more signatures then parties\""
                         }
                       ],
-                      "id": 5999,
+                      "id": 6007,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        9036,
-                        9037
+                        9048,
+                        9049
                       ],
-                      "referencedDeclaration": 9037,
+                      "referencedDeclaration": 9049,
                       "src": "789:7:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 6006,
+                    "id": 6014,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -699,13 +699,13 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 6007,
+                  "id": 6015,
                   "nodeType": "ExpressionStatement",
                   "src": "789:100:16"
                 },
                 {
                   "body": {
-                    "id": 6042,
+                    "id": 6050,
                     "nodeType": "Block",
                     "src": "968:159:16",
                     "statements": [
@@ -719,7 +719,7 @@
                                 "typeIdentifier": "t_address",
                                 "typeString": "address"
                               },
-                              "id": 6038,
+                              "id": 6046,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -728,25 +728,25 @@
                                 "argumentTypes": null,
                                 "baseExpression": {
                                   "argumentTypes": null,
-                                  "id": 6020,
+                                  "id": 6028,
                                   "name": "_parties",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 5980,
+                                  "referencedDeclaration": 5988,
                                   "src": "990:8:16",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
                                     "typeString": "address[] memory"
                                   }
                                 },
-                                "id": 6022,
+                                "id": 6030,
                                 "indexExpression": {
                                   "argumentTypes": null,
-                                  "id": 6021,
+                                  "id": 6029,
                                   "name": "i",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 6009,
+                                  "referencedDeclaration": 6017,
                                   "src": "999:1:16",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
@@ -771,124 +771,12 @@
                                 "arguments": [
                                   {
                                     "argumentTypes": null,
-                                    "id": 6024,
+                                    "id": 6032,
                                     "name": "_hash",
                                     "nodeType": "Identifier",
                                     "overloadedDeclarations": [],
-                                    "referencedDeclaration": 5982,
+                                    "referencedDeclaration": 5990,
                                     "src": "1015:5:16",
-                                    "typeDescriptions": {
-                                      "typeIdentifier": "t_bytes32",
-                                      "typeString": "bytes32"
-                                    }
-                                  },
-                                  {
-                                    "argumentTypes": null,
-                                    "expression": {
-                                      "argumentTypes": null,
-                                      "baseExpression": {
-                                        "argumentTypes": null,
-                                        "id": 6025,
-                                        "name": "_decodedSignatures",
-                                        "nodeType": "Identifier",
-                                        "overloadedDeclarations": [],
-                                        "referencedDeclaration": 5990,
-                                        "src": "1022:18:16",
-                                        "typeDescriptions": {
-                                          "typeIdentifier": "t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr",
-                                          "typeString": "struct SigVerifier.Signature memory[] memory"
-                                        }
-                                      },
-                                      "id": 6027,
-                                      "indexExpression": {
-                                        "argumentTypes": null,
-                                        "id": 6026,
-                                        "name": "i",
-                                        "nodeType": "Identifier",
-                                        "overloadedDeclarations": [],
-                                        "referencedDeclaration": 6009,
-                                        "src": "1041:1:16",
-                                        "typeDescriptions": {
-                                          "typeIdentifier": "t_uint256",
-                                          "typeString": "uint256"
-                                        }
-                                      },
-                                      "isConstant": false,
-                                      "isLValue": true,
-                                      "isPure": false,
-                                      "lValueRequested": false,
-                                      "nodeType": "IndexAccess",
-                                      "src": "1022:21:16",
-                                      "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_Signature_$5958_memory",
-                                        "typeString": "struct SigVerifier.Signature memory"
-                                      }
-                                    },
-                                    "id": 6028,
-                                    "isConstant": false,
-                                    "isLValue": true,
-                                    "isPure": false,
-                                    "lValueRequested": false,
-                                    "memberName": "v",
-                                    "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 5953,
-                                    "src": "1022:23:16",
-                                    "typeDescriptions": {
-                                      "typeIdentifier": "t_uint8",
-                                      "typeString": "uint8"
-                                    }
-                                  },
-                                  {
-                                    "argumentTypes": null,
-                                    "expression": {
-                                      "argumentTypes": null,
-                                      "baseExpression": {
-                                        "argumentTypes": null,
-                                        "id": 6029,
-                                        "name": "_decodedSignatures",
-                                        "nodeType": "Identifier",
-                                        "overloadedDeclarations": [],
-                                        "referencedDeclaration": 5990,
-                                        "src": "1047:18:16",
-                                        "typeDescriptions": {
-                                          "typeIdentifier": "t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr",
-                                          "typeString": "struct SigVerifier.Signature memory[] memory"
-                                        }
-                                      },
-                                      "id": 6031,
-                                      "indexExpression": {
-                                        "argumentTypes": null,
-                                        "id": 6030,
-                                        "name": "i",
-                                        "nodeType": "Identifier",
-                                        "overloadedDeclarations": [],
-                                        "referencedDeclaration": 6009,
-                                        "src": "1066:1:16",
-                                        "typeDescriptions": {
-                                          "typeIdentifier": "t_uint256",
-                                          "typeString": "uint256"
-                                        }
-                                      },
-                                      "isConstant": false,
-                                      "isLValue": true,
-                                      "isPure": false,
-                                      "lValueRequested": false,
-                                      "nodeType": "IndexAccess",
-                                      "src": "1047:21:16",
-                                      "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_Signature_$5958_memory",
-                                        "typeString": "struct SigVerifier.Signature memory"
-                                      }
-                                    },
-                                    "id": 6032,
-                                    "isConstant": false,
-                                    "isLValue": true,
-                                    "isPure": false,
-                                    "lValueRequested": false,
-                                    "memberName": "r",
-                                    "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 5955,
-                                    "src": "1047:23:16",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_bytes32",
                                       "typeString": "bytes32"
@@ -904,10 +792,10 @@
                                         "name": "_decodedSignatures",
                                         "nodeType": "Identifier",
                                         "overloadedDeclarations": [],
-                                        "referencedDeclaration": 5990,
-                                        "src": "1072:18:16",
+                                        "referencedDeclaration": 5998,
+                                        "src": "1022:18:16",
                                         "typeDescriptions": {
-                                          "typeIdentifier": "t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr",
+                                          "typeIdentifier": "t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr",
                                           "typeString": "struct SigVerifier.Signature memory[] memory"
                                         }
                                       },
@@ -918,7 +806,119 @@
                                         "name": "i",
                                         "nodeType": "Identifier",
                                         "overloadedDeclarations": [],
-                                        "referencedDeclaration": 6009,
+                                        "referencedDeclaration": 6017,
+                                        "src": "1041:1:16",
+                                        "typeDescriptions": {
+                                          "typeIdentifier": "t_uint256",
+                                          "typeString": "uint256"
+                                        }
+                                      },
+                                      "isConstant": false,
+                                      "isLValue": true,
+                                      "isPure": false,
+                                      "lValueRequested": false,
+                                      "nodeType": "IndexAccess",
+                                      "src": "1022:21:16",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_struct$_Signature_$5966_memory",
+                                        "typeString": "struct SigVerifier.Signature memory"
+                                      }
+                                    },
+                                    "id": 6036,
+                                    "isConstant": false,
+                                    "isLValue": true,
+                                    "isPure": false,
+                                    "lValueRequested": false,
+                                    "memberName": "v",
+                                    "nodeType": "MemberAccess",
+                                    "referencedDeclaration": 5961,
+                                    "src": "1022:23:16",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_uint8",
+                                      "typeString": "uint8"
+                                    }
+                                  },
+                                  {
+                                    "argumentTypes": null,
+                                    "expression": {
+                                      "argumentTypes": null,
+                                      "baseExpression": {
+                                        "argumentTypes": null,
+                                        "id": 6037,
+                                        "name": "_decodedSignatures",
+                                        "nodeType": "Identifier",
+                                        "overloadedDeclarations": [],
+                                        "referencedDeclaration": 5998,
+                                        "src": "1047:18:16",
+                                        "typeDescriptions": {
+                                          "typeIdentifier": "t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr",
+                                          "typeString": "struct SigVerifier.Signature memory[] memory"
+                                        }
+                                      },
+                                      "id": 6039,
+                                      "indexExpression": {
+                                        "argumentTypes": null,
+                                        "id": 6038,
+                                        "name": "i",
+                                        "nodeType": "Identifier",
+                                        "overloadedDeclarations": [],
+                                        "referencedDeclaration": 6017,
+                                        "src": "1066:1:16",
+                                        "typeDescriptions": {
+                                          "typeIdentifier": "t_uint256",
+                                          "typeString": "uint256"
+                                        }
+                                      },
+                                      "isConstant": false,
+                                      "isLValue": true,
+                                      "isPure": false,
+                                      "lValueRequested": false,
+                                      "nodeType": "IndexAccess",
+                                      "src": "1047:21:16",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_struct$_Signature_$5966_memory",
+                                        "typeString": "struct SigVerifier.Signature memory"
+                                      }
+                                    },
+                                    "id": 6040,
+                                    "isConstant": false,
+                                    "isLValue": true,
+                                    "isPure": false,
+                                    "lValueRequested": false,
+                                    "memberName": "r",
+                                    "nodeType": "MemberAccess",
+                                    "referencedDeclaration": 5963,
+                                    "src": "1047:23:16",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_bytes32",
+                                      "typeString": "bytes32"
+                                    }
+                                  },
+                                  {
+                                    "argumentTypes": null,
+                                    "expression": {
+                                      "argumentTypes": null,
+                                      "baseExpression": {
+                                        "argumentTypes": null,
+                                        "id": 6041,
+                                        "name": "_decodedSignatures",
+                                        "nodeType": "Identifier",
+                                        "overloadedDeclarations": [],
+                                        "referencedDeclaration": 5998,
+                                        "src": "1072:18:16",
+                                        "typeDescriptions": {
+                                          "typeIdentifier": "t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr",
+                                          "typeString": "struct SigVerifier.Signature memory[] memory"
+                                        }
+                                      },
+                                      "id": 6043,
+                                      "indexExpression": {
+                                        "argumentTypes": null,
+                                        "id": 6042,
+                                        "name": "i",
+                                        "nodeType": "Identifier",
+                                        "overloadedDeclarations": [],
+                                        "referencedDeclaration": 6017,
                                         "src": "1091:1:16",
                                         "typeDescriptions": {
                                           "typeIdentifier": "t_uint256",
@@ -932,18 +932,18 @@
                                       "nodeType": "IndexAccess",
                                       "src": "1072:21:16",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_Signature_$5958_memory",
+                                        "typeIdentifier": "t_struct$_Signature_$5966_memory",
                                         "typeString": "struct SigVerifier.Signature memory"
                                       }
                                     },
-                                    "id": 6036,
+                                    "id": 6044,
                                     "isConstant": false,
                                     "isLValue": true,
                                     "isPure": false,
                                     "lValueRequested": false,
                                     "memberName": "s",
                                     "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 5957,
+                                    "referencedDeclaration": 5965,
                                     "src": "1072:23:16",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_bytes32",
@@ -970,18 +970,18 @@
                                       "typeString": "bytes32"
                                     }
                                   ],
-                                  "id": 6023,
+                                  "id": 6031,
                                   "name": "ecrecover",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 9025,
+                                  "referencedDeclaration": 9037,
                                   "src": "1005:9:16",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_function_ecrecover_pure$_t_bytes32_$_t_uint8_$_t_bytes32_$_t_bytes32_$returns$_t_address_$",
                                     "typeString": "function (bytes32,uint8,bytes32,bytes32) pure returns (address)"
                                   }
                                 },
-                                "id": 6037,
+                                "id": 6045,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
@@ -1004,7 +1004,7 @@
                             {
                               "argumentTypes": null,
                               "hexValue": "57726f6e67207369676e6174757265",
-                              "id": 6039,
+                              "id": 6047,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -1031,21 +1031,21 @@
                                 "typeString": "literal_string \"Wrong signature\""
                               }
                             ],
-                            "id": 6019,
+                            "id": 6027,
                             "name": "require",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
-                              9036,
-                              9037
+                              9048,
+                              9049
                             ],
-                            "referencedDeclaration": 9037,
+                            "referencedDeclaration": 9049,
                             "src": "982:7:16",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                               "typeString": "function (bool,string memory) pure"
                             }
                           },
-                          "id": 6040,
+                          "id": 6048,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1059,7 +1059,7 @@
                             "typeString": "tuple()"
                           }
                         },
-                        "id": 6041,
+                        "id": 6049,
                         "nodeType": "ExpressionStatement",
                         "src": "982:134:16"
                       }
@@ -1071,18 +1071,18 @@
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     },
-                    "id": 6015,
+                    "id": 6023,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
                       "argumentTypes": null,
-                      "id": 6012,
+                      "id": 6020,
                       "name": "i",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 6009,
+                      "referencedDeclaration": 6017,
                       "src": "943:1:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -1095,18 +1095,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 6013,
+                        "id": 6021,
                         "name": "_parties",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5980,
+                        "referencedDeclaration": 5988,
                         "src": "947:8:16",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
                           "typeString": "address[] memory"
                         }
                       },
-                      "id": 6014,
+                      "id": 6022,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1126,18 +1126,18 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 6043,
+                  "id": 6051,
                   "initializationExpression": {
                     "assignments": [
-                      6009
+                      6017
                     ],
                     "declarations": [
                       {
                         "constant": false,
-                        "id": 6009,
+                        "id": 6017,
                         "name": "i",
                         "nodeType": "VariableDeclaration",
-                        "scope": 6043,
+                        "scope": 6051,
                         "src": "931:6:16",
                         "stateVariable": false,
                         "storageLocation": "default",
@@ -1146,7 +1146,7 @@
                           "typeString": "uint256"
                         },
                         "typeName": {
-                          "id": 6008,
+                          "id": 6016,
                           "name": "uint",
                           "nodeType": "ElementaryTypeName",
                           "src": "931:4:16",
@@ -1159,11 +1159,11 @@
                         "visibility": "internal"
                       }
                     ],
-                    "id": 6011,
+                    "id": 6019,
                     "initialValue": {
                       "argumentTypes": null,
                       "hexValue": "30",
-                      "id": 6010,
+                      "id": 6018,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -1184,7 +1184,7 @@
                   "loopExpression": {
                     "expression": {
                       "argumentTypes": null,
-                      "id": 6017,
+                      "id": 6025,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1195,11 +1195,11 @@
                       "src": "964:3:16",
                       "subExpression": {
                         "argumentTypes": null,
-                        "id": 6016,
+                        "id": 6024,
                         "name": "i",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 6009,
+                        "referencedDeclaration": 6017,
                         "src": "964:1:16",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -1211,7 +1211,7 @@
                         "typeString": "uint256"
                       }
                     },
-                    "id": 6018,
+                    "id": 6026,
                     "nodeType": "ExpressionStatement",
                     "src": "964:3:16"
                   },
@@ -1221,22 +1221,22 @@
               ]
             },
             "documentation": null,
-            "id": 6045,
+            "id": 6053,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "verifySignatures",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 5985,
+              "id": 5993,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 5980,
+                  "id": 5988,
                   "name": "_parties",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6045,
+                  "scope": 6053,
                   "src": "518:25:16",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1246,7 +1246,7 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 5978,
+                      "id": 5986,
                       "name": "address",
                       "nodeType": "ElementaryTypeName",
                       "src": "518:7:16",
@@ -1256,7 +1256,7 @@
                         "typeString": "address"
                       }
                     },
-                    "id": 5979,
+                    "id": 5987,
                     "length": null,
                     "nodeType": "ArrayTypeName",
                     "src": "518:9:16",
@@ -1270,10 +1270,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 5982,
+                  "id": 5990,
                   "name": "_hash",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6045,
+                  "scope": 6053,
                   "src": "545:13:16",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1282,7 +1282,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 5981,
+                    "id": 5989,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "545:7:16",
@@ -1296,10 +1296,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 5984,
+                  "id": 5992,
                   "name": "_signatures",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6045,
+                  "scope": 6053,
                   "src": "560:24:16",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1308,7 +1308,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 5983,
+                    "id": 5991,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "560:5:16",
@@ -1324,12 +1324,12 @@
               "src": "517:68:16"
             },
             "returnParameters": {
-              "id": 5986,
+              "id": 5994,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "595:0:16"
             },
-            "scope": 6084,
+            "scope": 6092,
             "src": "492:641:16",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -1337,7 +1337,7 @@
           },
           {
             "body": {
-              "id": 6058,
+              "id": 6066,
               "nodeType": "Block",
               "src": "1309:66:16",
               "statements": [
@@ -1350,11 +1350,11 @@
                         "arguments": [
                           {
                             "argumentTypes": null,
-                            "id": 6054,
+                            "id": 6062,
                             "name": "_encodedInput",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 6047,
+                            "referencedDeclaration": 6055,
                             "src": "1353:13:16",
                             "typeDescriptions": {
                               "typeIdentifier": "t_bytes_memory_ptr",
@@ -1369,18 +1369,18 @@
                               "typeString": "bytes memory"
                             }
                           ],
-                          "id": 6053,
+                          "id": 6061,
                           "name": "keccak256",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 9027,
+                          "referencedDeclaration": 9039,
                           "src": "1343:9:16",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
                             "typeString": "function (bytes memory) pure returns (bytes32)"
                           }
                         },
-                        "id": 6055,
+                        "id": 6063,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1402,21 +1402,21 @@
                           "typeString": "bytes32"
                         }
                       ],
-                      "id": 6052,
+                      "id": 6060,
                       "name": "calcPrefixedHash",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        6059,
-                        6083
+                        6067,
+                        6091
                       ],
-                      "referencedDeclaration": 6083,
+                      "referencedDeclaration": 6091,
                       "src": "1326:16:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_bytes32_$returns$_t_bytes32_$",
                         "typeString": "function (bytes32) pure returns (bytes32)"
                       }
                     },
-                    "id": 6056,
+                    "id": 6064,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1430,30 +1430,30 @@
                       "typeString": "bytes32"
                     }
                   },
-                  "functionReturnParameters": 6051,
-                  "id": 6057,
+                  "functionReturnParameters": 6059,
+                  "id": 6065,
                   "nodeType": "Return",
                   "src": "1319:49:16"
                 }
               ]
             },
             "documentation": null,
-            "id": 6059,
+            "id": 6067,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "calcPrefixedHash",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6048,
+              "id": 6056,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6047,
+                  "id": 6055,
                   "name": "_encodedInput",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6059,
+                  "scope": 6067,
                   "src": "1250:26:16",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1462,7 +1462,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 6046,
+                    "id": 6054,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "1250:5:16",
@@ -1478,15 +1478,15 @@
               "src": "1249:28:16"
             },
             "returnParameters": {
-              "id": 6051,
+              "id": 6059,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6050,
+                  "id": 6058,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6059,
+                  "scope": 6067,
                   "src": "1301:7:16",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1495,7 +1495,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 6049,
+                    "id": 6057,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "1301:7:16",
@@ -1510,7 +1510,7 @@
               ],
               "src": "1300:9:16"
             },
-            "scope": 6084,
+            "scope": 6092,
             "src": "1224:151:16",
             "stateMutability": "pure",
             "superFunction": null,
@@ -1518,21 +1518,21 @@
           },
           {
             "body": {
-              "id": 6082,
+              "id": 6090,
               "nodeType": "Block",
               "src": "1464:168:16",
               "statements": [
                 {
                   "assignments": [
-                    6067
+                    6075
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 6067,
+                      "id": 6075,
                       "name": "_mes",
                       "nodeType": "VariableDeclaration",
-                      "scope": 6082,
+                      "scope": 6090,
                       "src": "1474:18:16",
                       "stateVariable": false,
                       "storageLocation": "memory",
@@ -1541,7 +1541,7 @@
                         "typeString": "string"
                       },
                       "typeName": {
-                        "id": 6066,
+                        "id": 6074,
                         "name": "string",
                         "nodeType": "ElementaryTypeName",
                         "src": "1474:6:16",
@@ -1554,11 +1554,11 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 6069,
+                  "id": 6077,
                   "initialValue": {
                     "argumentTypes": null,
                     "hexValue": "19457468657265756d205369676e6564204d6573736167653a0a3332",
-                    "id": 6068,
+                    "id": 6076,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -1578,15 +1578,15 @@
                 },
                 {
                   "assignments": [
-                    6071
+                    6079
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 6071,
+                      "id": 6079,
                       "name": "_hash2",
                       "nodeType": "VariableDeclaration",
-                      "scope": 6082,
+                      "scope": 6090,
                       "src": "1539:14:16",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -1595,7 +1595,7 @@
                         "typeString": "bytes32"
                       },
                       "typeName": {
-                        "id": 6070,
+                        "id": 6078,
                         "name": "bytes32",
                         "nodeType": "ElementaryTypeName",
                         "src": "1539:7:16",
@@ -1608,7 +1608,7 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 6079,
+                  "id": 6087,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [
@@ -1617,11 +1617,11 @@
                         "arguments": [
                           {
                             "argumentTypes": null,
-                            "id": 6075,
+                            "id": 6083,
                             "name": "_mes",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 6067,
+                            "referencedDeclaration": 6075,
                             "src": "1583:4:16",
                             "typeDescriptions": {
                               "typeIdentifier": "t_string_memory_ptr",
@@ -1630,11 +1630,11 @@
                           },
                           {
                             "argumentTypes": null,
-                            "id": 6076,
+                            "id": 6084,
                             "name": "_hashedInput",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 6061,
+                            "referencedDeclaration": 6069,
                             "src": "1588:12:16",
                             "typeDescriptions": {
                               "typeIdentifier": "t_bytes32",
@@ -1655,18 +1655,18 @@
                           ],
                           "expression": {
                             "argumentTypes": null,
-                            "id": 6073,
+                            "id": 6081,
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 9020,
+                            "referencedDeclaration": 9032,
                             "src": "1566:3:16",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
                               "typeString": "abi"
                             }
                           },
-                          "id": 6074,
+                          "id": 6082,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -1680,7 +1680,7 @@
                             "typeString": "function () pure returns (bytes memory)"
                           }
                         },
-                        "id": 6077,
+                        "id": 6085,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1702,18 +1702,18 @@
                           "typeString": "bytes memory"
                         }
                       ],
-                      "id": 6072,
+                      "id": 6080,
                       "name": "keccak256",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 9027,
+                      "referencedDeclaration": 9039,
                       "src": "1556:9:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
                         "typeString": "function (bytes memory) pure returns (bytes32)"
                       }
                     },
-                    "id": 6078,
+                    "id": 6086,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1733,41 +1733,41 @@
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 6080,
+                    "id": 6088,
                     "name": "_hash2",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 6071,
+                    "referencedDeclaration": 6079,
                     "src": "1619:6:16",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
                     }
                   },
-                  "functionReturnParameters": 6065,
-                  "id": 6081,
+                  "functionReturnParameters": 6073,
+                  "id": 6089,
                   "nodeType": "Return",
                   "src": "1612:13:16"
                 }
               ]
             },
             "documentation": null,
-            "id": 6083,
+            "id": 6091,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "calcPrefixedHash",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6062,
+              "id": 6070,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6061,
+                  "id": 6069,
                   "name": "_hashedInput",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6083,
+                  "scope": 6091,
                   "src": "1411:20:16",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1776,7 +1776,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 6060,
+                    "id": 6068,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "1411:7:16",
@@ -1792,15 +1792,15 @@
               "src": "1410:22:16"
             },
             "returnParameters": {
-              "id": 6065,
+              "id": 6073,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6064,
+                  "id": 6072,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6083,
+                  "scope": 6091,
                   "src": "1456:7:16",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1809,7 +1809,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 6063,
+                    "id": 6071,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "1456:7:16",
@@ -1824,31 +1824,31 @@
               ],
               "src": "1455:9:16"
             },
-            "scope": 6084,
+            "scope": 6092,
             "src": "1385:247:16",
             "stateMutability": "pure",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-        "scope": 6085,
+        "scope": 6093,
         "src": "59:1575:16"
       }
     ],
     "src": "0:1635:16"
   },
   "legacyAST": {
-    "absolutePath": "/home/david/Desktop/implementation/truffle/contracts/sharedCode/SigVerifier.sol",
+    "absolutePath": "/media/shared/CAC/Projekte/2019_SC_Workshop_FinCrypto/publicImplementation/truffle/contracts/sharedCode/SigVerifier.sol",
     "exportedSymbols": {
       "SigVerifier": [
-        6084
+        6092
       ]
     },
-    "id": 6085,
+    "id": 6093,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 5950,
+        "id": 5958,
         "literals": [
           "solidity",
           "0.5",
@@ -1858,7 +1858,7 @@
         "src": "0:23:16"
       },
       {
-        "id": 5951,
+        "id": 5959,
         "literals": [
           "experimental",
           "ABIEncoderV2"
@@ -1872,23 +1872,23 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 6084,
+        "id": 6092,
         "linearizedBaseContracts": [
-          6084
+          6092
         ],
         "name": "SigVerifier",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "SigVerifier.Signature",
-            "id": 5958,
+            "id": 5966,
             "members": [
               {
                 "constant": false,
-                "id": 5953,
+                "id": 5961,
                 "name": "v",
                 "nodeType": "VariableDeclaration",
-                "scope": 5958,
+                "scope": 5966,
                 "src": "145:7:16",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1897,7 +1897,7 @@
                   "typeString": "uint8"
                 },
                 "typeName": {
-                  "id": 5952,
+                  "id": 5960,
                   "name": "uint8",
                   "nodeType": "ElementaryTypeName",
                   "src": "145:5:16",
@@ -1911,10 +1911,10 @@
               },
               {
                 "constant": false,
-                "id": 5955,
+                "id": 5963,
                 "name": "r",
                 "nodeType": "VariableDeclaration",
-                "scope": 5958,
+                "scope": 5966,
                 "src": "162:9:16",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1923,7 +1923,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 5954,
+                  "id": 5962,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "162:7:16",
@@ -1937,10 +1937,10 @@
               },
               {
                 "constant": false,
-                "id": 5957,
+                "id": 5965,
                 "name": "s",
                 "nodeType": "VariableDeclaration",
-                "scope": 5958,
+                "scope": 5966,
                 "src": "181:9:16",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1949,7 +1949,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 5956,
+                  "id": 5964,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "181:7:16",
@@ -1964,13 +1964,13 @@
             ],
             "name": "Signature",
             "nodeType": "StructDefinition",
-            "scope": 6084,
+            "scope": 6092,
             "src": "118:79:16",
             "visibility": "public"
           },
           {
             "body": {
-              "id": 5976,
+              "id": 5984,
               "nodeType": "Block",
               "src": "358:89:16",
               "statements": [
@@ -1980,11 +1980,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 5969,
+                        "id": 5977,
                         "name": "_parties",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5961,
+                        "referencedDeclaration": 5969,
                         "src": "385:8:16",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
@@ -1996,11 +1996,11 @@
                         "arguments": [
                           {
                             "argumentTypes": null,
-                            "id": 5971,
+                            "id": 5979,
                             "name": "_encodedInput",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5963,
+                            "referencedDeclaration": 5971,
                             "src": "412:13:16",
                             "typeDescriptions": {
                               "typeIdentifier": "t_bytes_memory_ptr",
@@ -2015,21 +2015,21 @@
                               "typeString": "bytes memory"
                             }
                           ],
-                          "id": 5970,
+                          "id": 5978,
                           "name": "calcPrefixedHash",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [
-                            6059,
-                            6083
+                            6067,
+                            6091
                           ],
-                          "referencedDeclaration": 6059,
+                          "referencedDeclaration": 6067,
                           "src": "395:16:16",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
                             "typeString": "function (bytes memory) pure returns (bytes32)"
                           }
                         },
-                        "id": 5972,
+                        "id": 5980,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -2045,11 +2045,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 5973,
+                        "id": 5981,
                         "name": "_signatures",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5965,
+                        "referencedDeclaration": 5973,
                         "src": "428:11:16",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes_memory_ptr",
@@ -2072,21 +2072,21 @@
                           "typeString": "bytes memory"
                         }
                       ],
-                      "id": 5968,
+                      "id": 5976,
                       "name": "verifySignatures",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        5977,
-                        6045
+                        5985,
+                        6053
                       ],
-                      "referencedDeclaration": 6045,
+                      "referencedDeclaration": 6053,
                       "src": "368:16:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_array$_t_address_$dyn_memory_ptr_$_t_bytes32_$_t_bytes_memory_ptr_$returns$__$",
                         "typeString": "function (address[] memory,bytes32,bytes memory)"
                       }
                     },
-                    "id": 5974,
+                    "id": 5982,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2100,29 +2100,29 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 5975,
+                  "id": 5983,
                   "nodeType": "ExpressionStatement",
                   "src": "368:72:16"
                 }
               ]
             },
             "documentation": null,
-            "id": 5977,
+            "id": 5985,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "verifySignatures",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 5966,
+              "id": 5974,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 5961,
+                  "id": 5969,
                   "name": "_parties",
                   "nodeType": "VariableDeclaration",
-                  "scope": 5977,
+                  "scope": 5985,
                   "src": "268:25:16",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -2132,7 +2132,7 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 5959,
+                      "id": 5967,
                       "name": "address",
                       "nodeType": "ElementaryTypeName",
                       "src": "268:7:16",
@@ -2142,7 +2142,7 @@
                         "typeString": "address"
                       }
                     },
-                    "id": 5960,
+                    "id": 5968,
                     "length": null,
                     "nodeType": "ArrayTypeName",
                     "src": "268:9:16",
@@ -2156,10 +2156,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 5963,
+                  "id": 5971,
                   "name": "_encodedInput",
                   "nodeType": "VariableDeclaration",
-                  "scope": 5977,
+                  "scope": 5985,
                   "src": "295:26:16",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -2168,7 +2168,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 5962,
+                    "id": 5970,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "295:5:16",
@@ -2182,10 +2182,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 5965,
+                  "id": 5973,
                   "name": "_signatures",
                   "nodeType": "VariableDeclaration",
-                  "scope": 5977,
+                  "scope": 5985,
                   "src": "323:24:16",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -2194,7 +2194,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 5964,
+                    "id": 5972,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "323:5:16",
@@ -2210,12 +2210,12 @@
               "src": "267:81:16"
             },
             "returnParameters": {
-              "id": 5967,
+              "id": 5975,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "358:0:16"
             },
-            "scope": 6084,
+            "scope": 6092,
             "src": "242:205:16",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -2223,47 +2223,47 @@
           },
           {
             "body": {
-              "id": 6044,
+              "id": 6052,
               "nodeType": "Block",
               "src": "595:538:16",
               "statements": [
                 {
                   "assignments": [
-                    5990
+                    5998
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 5990,
+                      "id": 5998,
                       "name": "_decodedSignatures",
                       "nodeType": "VariableDeclaration",
-                      "scope": 6044,
+                      "scope": 6052,
                       "src": "643:37:16",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr",
+                        "typeIdentifier": "t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr",
                         "typeString": "struct SigVerifier.Signature[]"
                       },
                       "typeName": {
                         "baseType": {
                           "contractScope": null,
-                          "id": 5988,
+                          "id": 5996,
                           "name": "Signature",
                           "nodeType": "UserDefinedTypeName",
-                          "referencedDeclaration": 5958,
+                          "referencedDeclaration": 5966,
                           "src": "643:9:16",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_Signature_$5958_storage_ptr",
+                            "typeIdentifier": "t_struct$_Signature_$5966_storage_ptr",
                             "typeString": "struct SigVerifier.Signature"
                           }
                         },
-                        "id": 5989,
+                        "id": 5997,
                         "length": null,
                         "nodeType": "ArrayTypeName",
                         "src": "643:11:16",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_array$_t_struct$_Signature_$5958_storage_$dyn_storage_ptr",
+                          "typeIdentifier": "t_array$_t_struct$_Signature_$5966_storage_$dyn_storage_ptr",
                           "typeString": "struct SigVerifier.Signature[]"
                         }
                       },
@@ -2271,17 +2271,17 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 5998,
+                  "id": 6006,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 5993,
+                        "id": 6001,
                         "name": "_signatures",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5984,
+                        "referencedDeclaration": 5992,
                         "src": "694:11:16",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes_memory_ptr",
@@ -2295,18 +2295,18 @@
                             "argumentTypes": null,
                             "baseExpression": {
                               "argumentTypes": null,
-                              "id": 5994,
+                              "id": 6002,
                               "name": "Signature",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 5958,
+                              "referencedDeclaration": 5966,
                               "src": "708:9:16",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_type$_t_struct$_Signature_$5958_storage_ptr_$",
+                                "typeIdentifier": "t_type$_t_struct$_Signature_$5966_storage_ptr_$",
                                 "typeString": "type(struct SigVerifier.Signature storage pointer)"
                               }
                             },
-                            "id": 5995,
+                            "id": 6003,
                             "indexExpression": null,
                             "isConstant": false,
                             "isLValue": false,
@@ -2315,12 +2315,12 @@
                             "nodeType": "IndexAccess",
                             "src": "708:11:16",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_type$_t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr_$",
+                              "typeIdentifier": "t_type$_t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr_$",
                               "typeString": "type(struct SigVerifier.Signature memory[] memory)"
                             }
                           }
                         ],
-                        "id": 5996,
+                        "id": 6004,
                         "isConstant": false,
                         "isInlineArray": false,
                         "isLValue": false,
@@ -2329,7 +2329,7 @@
                         "nodeType": "TupleExpression",
                         "src": "707:13:16",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr_$",
+                          "typeIdentifier": "t_type$_t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr_$",
                           "typeString": "type(struct SigVerifier.Signature memory[] memory)"
                         }
                       }
@@ -2341,24 +2341,24 @@
                           "typeString": "bytes memory"
                         },
                         {
-                          "typeIdentifier": "t_type$_t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr_$",
+                          "typeIdentifier": "t_type$_t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr_$",
                           "typeString": "type(struct SigVerifier.Signature memory[] memory)"
                         }
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 5991,
+                        "id": 5999,
                         "name": "abi",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 9020,
+                        "referencedDeclaration": 9032,
                         "src": "683:3:16",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_abi",
                           "typeString": "abi"
                         }
                       },
-                      "id": 5992,
+                      "id": 6000,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -2372,7 +2372,7 @@
                         "typeString": "function () pure"
                       }
                     },
-                    "id": 5997,
+                    "id": 6005,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2382,7 +2382,7 @@
                     "nodeType": "FunctionCall",
                     "src": "683:38:16",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_struct$_Signature_$5958_memory_$dyn_memory",
+                      "typeIdentifier": "t_array$_t_struct$_Signature_$5966_memory_$dyn_memory",
                       "typeString": "struct SigVerifier.Signature memory[] memory"
                     }
                   },
@@ -2399,7 +2399,7 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 6004,
+                        "id": 6012,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -2408,18 +2408,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 6000,
+                            "id": 6008,
                             "name": "_decodedSignatures",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5990,
+                            "referencedDeclaration": 5998,
                             "src": "797:18:16",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr",
+                              "typeIdentifier": "t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr",
                               "typeString": "struct SigVerifier.Signature memory[] memory"
                             }
                           },
-                          "id": 6001,
+                          "id": 6009,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -2439,18 +2439,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 6002,
+                            "id": 6010,
                             "name": "_parties",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5980,
+                            "referencedDeclaration": 5988,
                             "src": "826:8:16",
                             "typeDescriptions": {
                               "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
                               "typeString": "address[] memory"
                             }
                           },
-                          "id": 6003,
+                          "id": 6011,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -2473,7 +2473,7 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "546865726520617265206c6573732f6d6f7265207369676e617475726573207468656e2070617274696573",
-                        "id": 6005,
+                        "id": 6013,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -2500,21 +2500,21 @@
                           "typeString": "literal_string \"There are less/more signatures then parties\""
                         }
                       ],
-                      "id": 5999,
+                      "id": 6007,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        9036,
-                        9037
+                        9048,
+                        9049
                       ],
-                      "referencedDeclaration": 9037,
+                      "referencedDeclaration": 9049,
                       "src": "789:7:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 6006,
+                    "id": 6014,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2528,13 +2528,13 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 6007,
+                  "id": 6015,
                   "nodeType": "ExpressionStatement",
                   "src": "789:100:16"
                 },
                 {
                   "body": {
-                    "id": 6042,
+                    "id": 6050,
                     "nodeType": "Block",
                     "src": "968:159:16",
                     "statements": [
@@ -2548,7 +2548,7 @@
                                 "typeIdentifier": "t_address",
                                 "typeString": "address"
                               },
-                              "id": 6038,
+                              "id": 6046,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -2557,25 +2557,25 @@
                                 "argumentTypes": null,
                                 "baseExpression": {
                                   "argumentTypes": null,
-                                  "id": 6020,
+                                  "id": 6028,
                                   "name": "_parties",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 5980,
+                                  "referencedDeclaration": 5988,
                                   "src": "990:8:16",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
                                     "typeString": "address[] memory"
                                   }
                                 },
-                                "id": 6022,
+                                "id": 6030,
                                 "indexExpression": {
                                   "argumentTypes": null,
-                                  "id": 6021,
+                                  "id": 6029,
                                   "name": "i",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 6009,
+                                  "referencedDeclaration": 6017,
                                   "src": "999:1:16",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
@@ -2600,124 +2600,12 @@
                                 "arguments": [
                                   {
                                     "argumentTypes": null,
-                                    "id": 6024,
+                                    "id": 6032,
                                     "name": "_hash",
                                     "nodeType": "Identifier",
                                     "overloadedDeclarations": [],
-                                    "referencedDeclaration": 5982,
+                                    "referencedDeclaration": 5990,
                                     "src": "1015:5:16",
-                                    "typeDescriptions": {
-                                      "typeIdentifier": "t_bytes32",
-                                      "typeString": "bytes32"
-                                    }
-                                  },
-                                  {
-                                    "argumentTypes": null,
-                                    "expression": {
-                                      "argumentTypes": null,
-                                      "baseExpression": {
-                                        "argumentTypes": null,
-                                        "id": 6025,
-                                        "name": "_decodedSignatures",
-                                        "nodeType": "Identifier",
-                                        "overloadedDeclarations": [],
-                                        "referencedDeclaration": 5990,
-                                        "src": "1022:18:16",
-                                        "typeDescriptions": {
-                                          "typeIdentifier": "t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr",
-                                          "typeString": "struct SigVerifier.Signature memory[] memory"
-                                        }
-                                      },
-                                      "id": 6027,
-                                      "indexExpression": {
-                                        "argumentTypes": null,
-                                        "id": 6026,
-                                        "name": "i",
-                                        "nodeType": "Identifier",
-                                        "overloadedDeclarations": [],
-                                        "referencedDeclaration": 6009,
-                                        "src": "1041:1:16",
-                                        "typeDescriptions": {
-                                          "typeIdentifier": "t_uint256",
-                                          "typeString": "uint256"
-                                        }
-                                      },
-                                      "isConstant": false,
-                                      "isLValue": true,
-                                      "isPure": false,
-                                      "lValueRequested": false,
-                                      "nodeType": "IndexAccess",
-                                      "src": "1022:21:16",
-                                      "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_Signature_$5958_memory",
-                                        "typeString": "struct SigVerifier.Signature memory"
-                                      }
-                                    },
-                                    "id": 6028,
-                                    "isConstant": false,
-                                    "isLValue": true,
-                                    "isPure": false,
-                                    "lValueRequested": false,
-                                    "memberName": "v",
-                                    "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 5953,
-                                    "src": "1022:23:16",
-                                    "typeDescriptions": {
-                                      "typeIdentifier": "t_uint8",
-                                      "typeString": "uint8"
-                                    }
-                                  },
-                                  {
-                                    "argumentTypes": null,
-                                    "expression": {
-                                      "argumentTypes": null,
-                                      "baseExpression": {
-                                        "argumentTypes": null,
-                                        "id": 6029,
-                                        "name": "_decodedSignatures",
-                                        "nodeType": "Identifier",
-                                        "overloadedDeclarations": [],
-                                        "referencedDeclaration": 5990,
-                                        "src": "1047:18:16",
-                                        "typeDescriptions": {
-                                          "typeIdentifier": "t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr",
-                                          "typeString": "struct SigVerifier.Signature memory[] memory"
-                                        }
-                                      },
-                                      "id": 6031,
-                                      "indexExpression": {
-                                        "argumentTypes": null,
-                                        "id": 6030,
-                                        "name": "i",
-                                        "nodeType": "Identifier",
-                                        "overloadedDeclarations": [],
-                                        "referencedDeclaration": 6009,
-                                        "src": "1066:1:16",
-                                        "typeDescriptions": {
-                                          "typeIdentifier": "t_uint256",
-                                          "typeString": "uint256"
-                                        }
-                                      },
-                                      "isConstant": false,
-                                      "isLValue": true,
-                                      "isPure": false,
-                                      "lValueRequested": false,
-                                      "nodeType": "IndexAccess",
-                                      "src": "1047:21:16",
-                                      "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_Signature_$5958_memory",
-                                        "typeString": "struct SigVerifier.Signature memory"
-                                      }
-                                    },
-                                    "id": 6032,
-                                    "isConstant": false,
-                                    "isLValue": true,
-                                    "isPure": false,
-                                    "lValueRequested": false,
-                                    "memberName": "r",
-                                    "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 5955,
-                                    "src": "1047:23:16",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_bytes32",
                                       "typeString": "bytes32"
@@ -2733,10 +2621,10 @@
                                         "name": "_decodedSignatures",
                                         "nodeType": "Identifier",
                                         "overloadedDeclarations": [],
-                                        "referencedDeclaration": 5990,
-                                        "src": "1072:18:16",
+                                        "referencedDeclaration": 5998,
+                                        "src": "1022:18:16",
                                         "typeDescriptions": {
-                                          "typeIdentifier": "t_array$_t_struct$_Signature_$5958_memory_$dyn_memory_ptr",
+                                          "typeIdentifier": "t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr",
                                           "typeString": "struct SigVerifier.Signature memory[] memory"
                                         }
                                       },
@@ -2747,7 +2635,119 @@
                                         "name": "i",
                                         "nodeType": "Identifier",
                                         "overloadedDeclarations": [],
-                                        "referencedDeclaration": 6009,
+                                        "referencedDeclaration": 6017,
+                                        "src": "1041:1:16",
+                                        "typeDescriptions": {
+                                          "typeIdentifier": "t_uint256",
+                                          "typeString": "uint256"
+                                        }
+                                      },
+                                      "isConstant": false,
+                                      "isLValue": true,
+                                      "isPure": false,
+                                      "lValueRequested": false,
+                                      "nodeType": "IndexAccess",
+                                      "src": "1022:21:16",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_struct$_Signature_$5966_memory",
+                                        "typeString": "struct SigVerifier.Signature memory"
+                                      }
+                                    },
+                                    "id": 6036,
+                                    "isConstant": false,
+                                    "isLValue": true,
+                                    "isPure": false,
+                                    "lValueRequested": false,
+                                    "memberName": "v",
+                                    "nodeType": "MemberAccess",
+                                    "referencedDeclaration": 5961,
+                                    "src": "1022:23:16",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_uint8",
+                                      "typeString": "uint8"
+                                    }
+                                  },
+                                  {
+                                    "argumentTypes": null,
+                                    "expression": {
+                                      "argumentTypes": null,
+                                      "baseExpression": {
+                                        "argumentTypes": null,
+                                        "id": 6037,
+                                        "name": "_decodedSignatures",
+                                        "nodeType": "Identifier",
+                                        "overloadedDeclarations": [],
+                                        "referencedDeclaration": 5998,
+                                        "src": "1047:18:16",
+                                        "typeDescriptions": {
+                                          "typeIdentifier": "t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr",
+                                          "typeString": "struct SigVerifier.Signature memory[] memory"
+                                        }
+                                      },
+                                      "id": 6039,
+                                      "indexExpression": {
+                                        "argumentTypes": null,
+                                        "id": 6038,
+                                        "name": "i",
+                                        "nodeType": "Identifier",
+                                        "overloadedDeclarations": [],
+                                        "referencedDeclaration": 6017,
+                                        "src": "1066:1:16",
+                                        "typeDescriptions": {
+                                          "typeIdentifier": "t_uint256",
+                                          "typeString": "uint256"
+                                        }
+                                      },
+                                      "isConstant": false,
+                                      "isLValue": true,
+                                      "isPure": false,
+                                      "lValueRequested": false,
+                                      "nodeType": "IndexAccess",
+                                      "src": "1047:21:16",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_struct$_Signature_$5966_memory",
+                                        "typeString": "struct SigVerifier.Signature memory"
+                                      }
+                                    },
+                                    "id": 6040,
+                                    "isConstant": false,
+                                    "isLValue": true,
+                                    "isPure": false,
+                                    "lValueRequested": false,
+                                    "memberName": "r",
+                                    "nodeType": "MemberAccess",
+                                    "referencedDeclaration": 5963,
+                                    "src": "1047:23:16",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_bytes32",
+                                      "typeString": "bytes32"
+                                    }
+                                  },
+                                  {
+                                    "argumentTypes": null,
+                                    "expression": {
+                                      "argumentTypes": null,
+                                      "baseExpression": {
+                                        "argumentTypes": null,
+                                        "id": 6041,
+                                        "name": "_decodedSignatures",
+                                        "nodeType": "Identifier",
+                                        "overloadedDeclarations": [],
+                                        "referencedDeclaration": 5998,
+                                        "src": "1072:18:16",
+                                        "typeDescriptions": {
+                                          "typeIdentifier": "t_array$_t_struct$_Signature_$5966_memory_$dyn_memory_ptr",
+                                          "typeString": "struct SigVerifier.Signature memory[] memory"
+                                        }
+                                      },
+                                      "id": 6043,
+                                      "indexExpression": {
+                                        "argumentTypes": null,
+                                        "id": 6042,
+                                        "name": "i",
+                                        "nodeType": "Identifier",
+                                        "overloadedDeclarations": [],
+                                        "referencedDeclaration": 6017,
                                         "src": "1091:1:16",
                                         "typeDescriptions": {
                                           "typeIdentifier": "t_uint256",
@@ -2761,18 +2761,18 @@
                                       "nodeType": "IndexAccess",
                                       "src": "1072:21:16",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_Signature_$5958_memory",
+                                        "typeIdentifier": "t_struct$_Signature_$5966_memory",
                                         "typeString": "struct SigVerifier.Signature memory"
                                       }
                                     },
-                                    "id": 6036,
+                                    "id": 6044,
                                     "isConstant": false,
                                     "isLValue": true,
                                     "isPure": false,
                                     "lValueRequested": false,
                                     "memberName": "s",
                                     "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 5957,
+                                    "referencedDeclaration": 5965,
                                     "src": "1072:23:16",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_bytes32",
@@ -2799,18 +2799,18 @@
                                       "typeString": "bytes32"
                                     }
                                   ],
-                                  "id": 6023,
+                                  "id": 6031,
                                   "name": "ecrecover",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 9025,
+                                  "referencedDeclaration": 9037,
                                   "src": "1005:9:16",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_function_ecrecover_pure$_t_bytes32_$_t_uint8_$_t_bytes32_$_t_bytes32_$returns$_t_address_$",
                                     "typeString": "function (bytes32,uint8,bytes32,bytes32) pure returns (address)"
                                   }
                                 },
-                                "id": 6037,
+                                "id": 6045,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
@@ -2833,7 +2833,7 @@
                             {
                               "argumentTypes": null,
                               "hexValue": "57726f6e67207369676e6174757265",
-                              "id": 6039,
+                              "id": 6047,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -2860,21 +2860,21 @@
                                 "typeString": "literal_string \"Wrong signature\""
                               }
                             ],
-                            "id": 6019,
+                            "id": 6027,
                             "name": "require",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
-                              9036,
-                              9037
+                              9048,
+                              9049
                             ],
-                            "referencedDeclaration": 9037,
+                            "referencedDeclaration": 9049,
                             "src": "982:7:16",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                               "typeString": "function (bool,string memory) pure"
                             }
                           },
-                          "id": 6040,
+                          "id": 6048,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -2888,7 +2888,7 @@
                             "typeString": "tuple()"
                           }
                         },
-                        "id": 6041,
+                        "id": 6049,
                         "nodeType": "ExpressionStatement",
                         "src": "982:134:16"
                       }
@@ -2900,18 +2900,18 @@
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     },
-                    "id": 6015,
+                    "id": 6023,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
                       "argumentTypes": null,
-                      "id": 6012,
+                      "id": 6020,
                       "name": "i",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 6009,
+                      "referencedDeclaration": 6017,
                       "src": "943:1:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -2924,18 +2924,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 6013,
+                        "id": 6021,
                         "name": "_parties",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5980,
+                        "referencedDeclaration": 5988,
                         "src": "947:8:16",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
                           "typeString": "address[] memory"
                         }
                       },
-                      "id": 6014,
+                      "id": 6022,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -2955,18 +2955,18 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 6043,
+                  "id": 6051,
                   "initializationExpression": {
                     "assignments": [
-                      6009
+                      6017
                     ],
                     "declarations": [
                       {
                         "constant": false,
-                        "id": 6009,
+                        "id": 6017,
                         "name": "i",
                         "nodeType": "VariableDeclaration",
-                        "scope": 6043,
+                        "scope": 6051,
                         "src": "931:6:16",
                         "stateVariable": false,
                         "storageLocation": "default",
@@ -2975,7 +2975,7 @@
                           "typeString": "uint256"
                         },
                         "typeName": {
-                          "id": 6008,
+                          "id": 6016,
                           "name": "uint",
                           "nodeType": "ElementaryTypeName",
                           "src": "931:4:16",
@@ -2988,11 +2988,11 @@
                         "visibility": "internal"
                       }
                     ],
-                    "id": 6011,
+                    "id": 6019,
                     "initialValue": {
                       "argumentTypes": null,
                       "hexValue": "30",
-                      "id": 6010,
+                      "id": 6018,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -3013,7 +3013,7 @@
                   "loopExpression": {
                     "expression": {
                       "argumentTypes": null,
-                      "id": 6017,
+                      "id": 6025,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -3024,11 +3024,11 @@
                       "src": "964:3:16",
                       "subExpression": {
                         "argumentTypes": null,
-                        "id": 6016,
+                        "id": 6024,
                         "name": "i",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 6009,
+                        "referencedDeclaration": 6017,
                         "src": "964:1:16",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -3040,7 +3040,7 @@
                         "typeString": "uint256"
                       }
                     },
-                    "id": 6018,
+                    "id": 6026,
                     "nodeType": "ExpressionStatement",
                     "src": "964:3:16"
                   },
@@ -3050,22 +3050,22 @@
               ]
             },
             "documentation": null,
-            "id": 6045,
+            "id": 6053,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "verifySignatures",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 5985,
+              "id": 5993,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 5980,
+                  "id": 5988,
                   "name": "_parties",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6045,
+                  "scope": 6053,
                   "src": "518:25:16",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -3075,7 +3075,7 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 5978,
+                      "id": 5986,
                       "name": "address",
                       "nodeType": "ElementaryTypeName",
                       "src": "518:7:16",
@@ -3085,7 +3085,7 @@
                         "typeString": "address"
                       }
                     },
-                    "id": 5979,
+                    "id": 5987,
                     "length": null,
                     "nodeType": "ArrayTypeName",
                     "src": "518:9:16",
@@ -3099,10 +3099,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 5982,
+                  "id": 5990,
                   "name": "_hash",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6045,
+                  "scope": 6053,
                   "src": "545:13:16",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3111,7 +3111,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 5981,
+                    "id": 5989,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "545:7:16",
@@ -3125,10 +3125,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 5984,
+                  "id": 5992,
                   "name": "_signatures",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6045,
+                  "scope": 6053,
                   "src": "560:24:16",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -3137,7 +3137,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 5983,
+                    "id": 5991,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "560:5:16",
@@ -3153,12 +3153,12 @@
               "src": "517:68:16"
             },
             "returnParameters": {
-              "id": 5986,
+              "id": 5994,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "595:0:16"
             },
-            "scope": 6084,
+            "scope": 6092,
             "src": "492:641:16",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -3166,7 +3166,7 @@
           },
           {
             "body": {
-              "id": 6058,
+              "id": 6066,
               "nodeType": "Block",
               "src": "1309:66:16",
               "statements": [
@@ -3179,11 +3179,11 @@
                         "arguments": [
                           {
                             "argumentTypes": null,
-                            "id": 6054,
+                            "id": 6062,
                             "name": "_encodedInput",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 6047,
+                            "referencedDeclaration": 6055,
                             "src": "1353:13:16",
                             "typeDescriptions": {
                               "typeIdentifier": "t_bytes_memory_ptr",
@@ -3198,18 +3198,18 @@
                               "typeString": "bytes memory"
                             }
                           ],
-                          "id": 6053,
+                          "id": 6061,
                           "name": "keccak256",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 9027,
+                          "referencedDeclaration": 9039,
                           "src": "1343:9:16",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
                             "typeString": "function (bytes memory) pure returns (bytes32)"
                           }
                         },
-                        "id": 6055,
+                        "id": 6063,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -3231,21 +3231,21 @@
                           "typeString": "bytes32"
                         }
                       ],
-                      "id": 6052,
+                      "id": 6060,
                       "name": "calcPrefixedHash",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        6059,
-                        6083
+                        6067,
+                        6091
                       ],
-                      "referencedDeclaration": 6083,
+                      "referencedDeclaration": 6091,
                       "src": "1326:16:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_bytes32_$returns$_t_bytes32_$",
                         "typeString": "function (bytes32) pure returns (bytes32)"
                       }
                     },
-                    "id": 6056,
+                    "id": 6064,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -3259,30 +3259,30 @@
                       "typeString": "bytes32"
                     }
                   },
-                  "functionReturnParameters": 6051,
-                  "id": 6057,
+                  "functionReturnParameters": 6059,
+                  "id": 6065,
                   "nodeType": "Return",
                   "src": "1319:49:16"
                 }
               ]
             },
             "documentation": null,
-            "id": 6059,
+            "id": 6067,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "calcPrefixedHash",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6048,
+              "id": 6056,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6047,
+                  "id": 6055,
                   "name": "_encodedInput",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6059,
+                  "scope": 6067,
                   "src": "1250:26:16",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -3291,7 +3291,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 6046,
+                    "id": 6054,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "1250:5:16",
@@ -3307,15 +3307,15 @@
               "src": "1249:28:16"
             },
             "returnParameters": {
-              "id": 6051,
+              "id": 6059,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6050,
+                  "id": 6058,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6059,
+                  "scope": 6067,
                   "src": "1301:7:16",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3324,7 +3324,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 6049,
+                    "id": 6057,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "1301:7:16",
@@ -3339,7 +3339,7 @@
               ],
               "src": "1300:9:16"
             },
-            "scope": 6084,
+            "scope": 6092,
             "src": "1224:151:16",
             "stateMutability": "pure",
             "superFunction": null,
@@ -3347,21 +3347,21 @@
           },
           {
             "body": {
-              "id": 6082,
+              "id": 6090,
               "nodeType": "Block",
               "src": "1464:168:16",
               "statements": [
                 {
                   "assignments": [
-                    6067
+                    6075
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 6067,
+                      "id": 6075,
                       "name": "_mes",
                       "nodeType": "VariableDeclaration",
-                      "scope": 6082,
+                      "scope": 6090,
                       "src": "1474:18:16",
                       "stateVariable": false,
                       "storageLocation": "memory",
@@ -3370,7 +3370,7 @@
                         "typeString": "string"
                       },
                       "typeName": {
-                        "id": 6066,
+                        "id": 6074,
                         "name": "string",
                         "nodeType": "ElementaryTypeName",
                         "src": "1474:6:16",
@@ -3383,11 +3383,11 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 6069,
+                  "id": 6077,
                   "initialValue": {
                     "argumentTypes": null,
                     "hexValue": "19457468657265756d205369676e6564204d6573736167653a0a3332",
-                    "id": 6068,
+                    "id": 6076,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -3407,15 +3407,15 @@
                 },
                 {
                   "assignments": [
-                    6071
+                    6079
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 6071,
+                      "id": 6079,
                       "name": "_hash2",
                       "nodeType": "VariableDeclaration",
-                      "scope": 6082,
+                      "scope": 6090,
                       "src": "1539:14:16",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -3424,7 +3424,7 @@
                         "typeString": "bytes32"
                       },
                       "typeName": {
-                        "id": 6070,
+                        "id": 6078,
                         "name": "bytes32",
                         "nodeType": "ElementaryTypeName",
                         "src": "1539:7:16",
@@ -3437,7 +3437,7 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 6079,
+                  "id": 6087,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [
@@ -3446,11 +3446,11 @@
                         "arguments": [
                           {
                             "argumentTypes": null,
-                            "id": 6075,
+                            "id": 6083,
                             "name": "_mes",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 6067,
+                            "referencedDeclaration": 6075,
                             "src": "1583:4:16",
                             "typeDescriptions": {
                               "typeIdentifier": "t_string_memory_ptr",
@@ -3459,11 +3459,11 @@
                           },
                           {
                             "argumentTypes": null,
-                            "id": 6076,
+                            "id": 6084,
                             "name": "_hashedInput",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 6061,
+                            "referencedDeclaration": 6069,
                             "src": "1588:12:16",
                             "typeDescriptions": {
                               "typeIdentifier": "t_bytes32",
@@ -3484,18 +3484,18 @@
                           ],
                           "expression": {
                             "argumentTypes": null,
-                            "id": 6073,
+                            "id": 6081,
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 9020,
+                            "referencedDeclaration": 9032,
                             "src": "1566:3:16",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
                               "typeString": "abi"
                             }
                           },
-                          "id": 6074,
+                          "id": 6082,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -3509,7 +3509,7 @@
                             "typeString": "function () pure returns (bytes memory)"
                           }
                         },
-                        "id": 6077,
+                        "id": 6085,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -3531,18 +3531,18 @@
                           "typeString": "bytes memory"
                         }
                       ],
-                      "id": 6072,
+                      "id": 6080,
                       "name": "keccak256",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 9027,
+                      "referencedDeclaration": 9039,
                       "src": "1556:9:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
                         "typeString": "function (bytes memory) pure returns (bytes32)"
                       }
                     },
-                    "id": 6078,
+                    "id": 6086,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -3562,41 +3562,41 @@
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 6080,
+                    "id": 6088,
                     "name": "_hash2",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 6071,
+                    "referencedDeclaration": 6079,
                     "src": "1619:6:16",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
                     }
                   },
-                  "functionReturnParameters": 6065,
-                  "id": 6081,
+                  "functionReturnParameters": 6073,
+                  "id": 6089,
                   "nodeType": "Return",
                   "src": "1612:13:16"
                 }
               ]
             },
             "documentation": null,
-            "id": 6083,
+            "id": 6091,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "calcPrefixedHash",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6062,
+              "id": 6070,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6061,
+                  "id": 6069,
                   "name": "_hashedInput",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6083,
+                  "scope": 6091,
                   "src": "1411:20:16",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3605,7 +3605,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 6060,
+                    "id": 6068,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "1411:7:16",
@@ -3621,15 +3621,15 @@
               "src": "1410:22:16"
             },
             "returnParameters": {
-              "id": 6065,
+              "id": 6073,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6064,
+                  "id": 6072,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6083,
+                  "scope": 6091,
                   "src": "1456:7:16",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3638,7 +3638,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 6063,
+                    "id": 6071,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "1456:7:16",
@@ -3653,14 +3653,14 @@
               ],
               "src": "1455:9:16"
             },
-            "scope": 6084,
+            "scope": 6092,
             "src": "1385:247:16",
             "stateMutability": "pure",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-        "scope": 6085,
+        "scope": 6093,
         "src": "59:1575:16"
       }
     ],
@@ -3672,7 +3672,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-12-12T13:18:18.762Z",
+  "updatedAt": "2019-12-13T14:08:30.734Z",
   "devdoc": {
     "methods": {}
   },
